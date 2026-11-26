@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="ScreenGlass.Controls.JewelSunglasses"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Focusable="False" IsTabStop="False" ToolTip="珠宝镜片随柔光强度变换色泽" IsHitTestVisible="True">
+ <Viewbox Stretch="Uniform">
+  <Grid Width="260" Height="148" Background="Transparent" MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave">
+   <Ellipse x:Name="Halo" Width="250" Height="140" Opacity="0.3" IsHitTestVisible="False">
+    <Ellipse.Fill><RadialGradientBrush><GradientStop x:Name="HaloTint" Color="#A878DAB2"/><GradientStop Color="#307ABAC7" Offset="0.55"/><GradientStop Color="#00C4F1DC" Offset="1"/></RadialGradientBrush></Ellipse.Fill>
+    <Ellipse.RenderTransform><ScaleTransform x:Name="HaloScale" CenterX="125" CenterY="70"/></Ellipse.RenderTransform>
+   </Ellipse>
+   <Canvas Width="260" Height="148" RenderTransformOrigin="0.5,0.5">
+    <Canvas.RenderTransform><TransformGroup><ScaleTransform x:Name="JewelScale"/><RotateTransform x:Name="JewelTilt" Angle="-5"/><TranslateTransform x:Name="JewelLift"/></TransformGroup></Canvas.RenderTransform>
+    <Canvas.Resources>
+     <PathGeometry x:Key="Lenses" Figures="M 24,51 L 97,51 110,66 99,99 78,109 43,101 29,81 Z M 150,66 L 163,51 236,51 231,81 217,101 182,109 161,99 Z"/>
+
+    </Canvas.Resources>
+    <!-- Sculpted cat-eye silhouette and polished champagne-gold temples. -->
+    <Path Data="M 27,58 L 12,42 5,43 M 233,58 L 248,42 255,43" Stroke="{DynamicResource MetalFill}" StrokeThickness="5" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+    <Path Data="M 19,45 L 99,47 116,64 Q 130,54 144,64 L 161,47 241,45 235,83 222,106 181,115 157,104 145,78 Q 130,64 115,78 L 103,104 79,115 38,106 25,83 Z" Fill="{DynamicResource MetalFill}">
+     <Path.Effect><DropShadowEffect Color="#164C3B" BlurRadius="14" ShadowDepth="8" Opacity="0.3"/></Path.Effect>
+    </Path>
+    <Path Data="{StaticResource Lenses}">
+     <Path.Fill><LinearGradientBrush StartPoint="0.15,0" EndPoint="0.8,1"><GradientStop x:Name="LensTop" Color="#69CFAE"/><GradientStop x:Name="LensMiddle" Color="#227D6F" Offset="0.48"/><GradientStop x:Name="LensBottom" Color="#183E56" Offset="1"/></LinearGradientBrush></Path.Fill>
+    </Path>
+    <!-- Gem cuts sit inside the lenses; the gold rims stay crisp. -->
+    <Path Data="M 24,51 L 45,67 97,51 80,77 Z M 163,51 L 181,77 215,65 236,51 Z" Fill="{DynamicResource FacetLight}"/>
+    <Path Data="M 29,81 L 45,67 54,92 78,109 43,101 Z M 236,51 L 215,65 206,94 217,101 231,81 Z" Fill="{DynamicResource FacetSide}"/>
+    <Path Data="M 54,92 L 80,77 99,99 78,109 Z M 161,99 L 181,77 206,94 182,109 Z" Fill="{DynamicResource FacetDepth}"/>
+    <Path Data="M 45,67 L 80,77 97,51 M 54,92 L 80,77 99,99 M 163,51 L 181,77 215,65 M 161,99 L 181,77 206,94" Stroke="{DynamicResource FacetLine}" StrokeThickness="0.7"/>
+    <Canvas Clip="{StaticResource Lenses}" Width="260" Height="148" IsHitTestVisible="False">
+     <Path x:Name="Reflection" Data="M -30,30 L -6,30 40,122 16,122 Z M 3,30 L 8,30 54,122 49,122 Z" Opacity="0.55">
+      <Path.Fill><LinearGradientBrush StartPoint="0,0" EndPoint="1,0"><GradientStop Color="#00FFFFFF"/><GradientStop Color="#BBFFFFFF" Offset="0.5"/><GradientStop Color="#00FFFFFF" Offset="1"/></LinearGradientBrush></Path.Fill>
+      <Path.RenderTransform><TranslateTransform x:Name="ReflectionShift" X="90"/></Path.RenderTransform>
+     </Path>
+    </Canvas>
+    <Path Data="M 24,51 L 97,51 110,66 M 150,66 L 163,51 236,51" Stroke="#F4FFE4" StrokeThickness="1.2" Fill="Transparent"/>
+    <Path Data="M 19,45 L 27,47 25,56 18,52 Z M 241,45 L 233,47 235,56 242,52 Z" Fill="{DynamicResource Green}" Stroke="{DynamicResource GemRim}" StrokeThickness="1"/>
+    <Path x:Name="Sparkle" Data="M 32,34 L 34,41 41,43 34,45 32,52 30,45 23,43 30,41 Z M 227,97 L 228,102 233,103 228,104 227,109 226,104 221,103 226,102 Z" Fill="#FFFBE6" Opacity="0.7"/>
+   </Canvas>
+  </Grid>
+ </Viewbox>
+</UserControl>

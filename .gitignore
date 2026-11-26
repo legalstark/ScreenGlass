@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+Source/work/
+dist/
+App/
+/animation/
+*.user
+*.suo
+verification.txt
+.vs/

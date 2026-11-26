@@ -1,0 +1,35 @@
+name: Windows package
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+      - name: Build portable package
+        shell: pwsh
+        run: ./scripts/Publish.ps1
+      - name: Verify the actual self-contained executable
+        shell: pwsh
+        run: |
+          $exe = Join-Path $PWD 'App/ScreenGlass.exe'
+          # 本轮只检查系统适配与原生窗口。
+          $process = Start-Process -FilePath $exe -ArgumentList @('--platform-test','--output',(Join-Path $PWD 'dist/platform-verification')) -PassThru -Wait -WindowStyle Hidden
+          if ($process.ExitCode -ne 0) { throw 'Self-test failed' }
+          Get-Content dist/platform-verification/platform-verification.txt
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ScreenGlass-windows-x64
+          path: |
+            dist/*.zip
+            dist/*.sha256
+          if-no-files-found: error

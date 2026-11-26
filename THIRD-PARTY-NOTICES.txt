@@ -1,0 +1,14 @@
+ScreenGlass third-party notices
+
+The Windows x64 portable distribution bundles the Microsoft .NET 10 runtime,
+including .NET and Windows Desktop (WPF / Windows Forms) components.
+Microsoft .NET is distributed under the MIT license, with third-party notices.
+The packaging script appends the exact license and notices from the runtime packages used for the build.
+
+https://github.com/dotnet/runtime/blob/main/LICENSE.TXT
+https://github.com/dotnet/runtime/blob/main/THIRD-PARTY-NOTICES.TXT
+https://github.com/dotnet/wpf/blob/main/LICENSE.TXT
+https://github.com/dotnet/winforms/blob/main/LICENSE.TXT
+
+ScreenGlass's jewel sunglasses vector artwork and interaction audio were created
+for this project. No external sound packs or stock-image assets are included.

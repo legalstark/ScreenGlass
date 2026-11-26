@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="ScreenGlass.Controls.DisplayPanel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ <UserControl.Resources>
+  <Style x:Key="DisplayChoiceItem" TargetType="ComboBoxItem">
+   <Setter Property="Foreground" Value="{DynamicResource Ink}"/>
+   <Setter Property="Padding" Value="12,10"/>
+   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+   <Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ComboBoxItem">
+    <Border x:Name="ItemSurface" CornerRadius="9" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" Padding="{TemplateBinding Padding}" Margin="2">
+     <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="18"/></Grid.ColumnDefinitions>
+      <ContentPresenter VerticalAlignment="Center"/>
+      <Path x:Name="SelectedMark" Grid.Column="1" Data="M 1,5 L 4,8 10,1" Stroke="{DynamicResource Green}" StrokeThickness="1.6" Visibility="Hidden" VerticalAlignment="Center"/>
+     </Grid>
+    </Border>
+    <ControlTemplate.Triggers>
+     <Trigger Property="IsSelected" Value="True"><Setter TargetName="ItemSurface" Property="Background" Value="{DynamicResource SelectedSurface}"/><Setter TargetName="SelectedMark" Property="Visibility" Value="Visible"/></Trigger>
+     <Trigger Property="IsHighlighted" Value="True"><Setter TargetName="ItemSurface" Property="BorderBrush" Value="{DynamicResource SelectedStroke}"/><Setter TargetName="ItemSurface" Property="Background" Value="{DynamicResource GlassCard}"/></Trigger>
+     <Trigger Property="IsEnabled" Value="False"><Setter TargetName="ItemSurface" Property="Opacity" Value="0.4"/></Trigger>
+    </ControlTemplate.Triggers>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+  <Style x:Key="DisplayChoice" TargetType="ComboBox">
+   <Setter Property="Foreground" Value="{DynamicResource Ink}"/>
+   <Setter Property="FontFamily" Value="Segoe UI, Microsoft YaHei UI"/>
+   <Setter Property="FontSize" Value="11"/>
+   <Setter Property="MinHeight" Value="42"/>
+   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+   <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+   <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+   <Setter Property="ItemContainerStyle" Value="{StaticResource DisplayChoiceItem}"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ComboBox">
+    <Grid>
+     <ToggleButton x:Name="Selector" IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Focusable="False" ClickMode="Press" AutomationProperties.Name="展开显示器列表">
+      <ToggleButton.Style><Style TargetType="ToggleButton">
+       <Setter Property="Cursor" Value="Hand"/>
+       <Setter Property="BorderBrush" Value="#A0FFFFFF"/>
+       <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToggleButton">
+        <Border x:Name="SelectorSurface" Background="{DynamicResource GlassCard}" CornerRadius="11" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1"/>
+        <ControlTemplate.Triggers>
+         <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="SelectorSurface" Property="BorderBrush" Value="{DynamicResource SelectedStroke}"/></Trigger>
+         <Trigger Property="IsChecked" Value="True"><Setter TargetName="SelectorSurface" Property="Background" Value="{DynamicResource SelectedSurface}"/><Setter TargetName="SelectorSurface" Property="BorderBrush" Value="{DynamicResource SelectedStroke}"/></Trigger>
+        </ControlTemplate.Triggers>
+       </ControlTemplate></Setter.Value></Setter>
+      </Style></ToggleButton.Style>
+     </ToggleButton>
+     <Grid Margin="12,9" IsHitTestVisible="False">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="25"/><ColumnDefinition Width="*"/><ColumnDefinition Width="20"/></Grid.ColumnDefinitions>
+      <Path Data="M 1,1 L 17,1 17,12 1,12 Z M 9,12 L 9,16 M 5,16 L 13,16" Width="18" Height="17" Stroke="{DynamicResource Green}" StrokeThickness="1.2" VerticalAlignment="Center"/>
+      <TextBlock Grid.Column="1" Text="{Binding SelectedItem.Label, RelativeSource={RelativeSource TemplatedParent}}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource Ink}"/>
+      <Path x:Name="Chevron" Grid.Column="2" Data="M 1,1 L 5,5 9,1" Width="10" Height="6" Stroke="{DynamicResource Muted}" StrokeThickness="1.3" HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"/>
+     </Grid>
+     <Popup x:Name="PART_Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="None">
+      <Border Background="{DynamicResource MenuSurface}" BorderBrush="{DynamicResource SelectedStroke}" BorderThickness="1" CornerRadius="12" Padding="4" Margin="0,5,0,0" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}" MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+       <ScrollViewer MaxHeight="240" CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/></ScrollViewer>
+      </Border>
+     </Popup>
+    </Grid>
+    <ControlTemplate.Triggers>
+     <Trigger Property="IsKeyboardFocusWithin" Value="True"><Setter TargetName="Selector" Property="BorderBrush" Value="{DynamicResource SelectedStroke}"/></Trigger>
+     <Trigger Property="IsDropDownOpen" Value="True"><Setter TargetName="Chevron" Property="RenderTransform"><Setter.Value><RotateTransform Angle="180"/></Setter.Value></Setter></Trigger>
+     <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Selector" Property="Opacity" Value="0.4"/></Trigger>
+    </ControlTemplate.Triggers>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+ </UserControl.Resources>
+ <Border Background="{DynamicResource GlassCard}" BorderBrush="#90FFFFFF" BorderThickness="1" CornerRadius="14" Padding="13,12">
+  <StackPanel>
+   <Grid Margin="0,0,0,9"><TextBlock Text="每屏调暗" FontSize="11" FontWeight="SemiBold"/><TextBlock Text="D I M M I N G" FontSize="7" Foreground="{DynamicResource Muted}" HorizontalAlignment="Right" VerticalAlignment="Center"/></Grid>
+   <ComboBox x:Name="ScreenChoice" Style="{StaticResource DisplayChoice}" SelectedValuePath="Id" SelectionChanged="SelectScreen" AutomationProperties.Name="选择显示器" ToolTip="{Binding SelectedItem.Label, RelativeSource={RelativeSource Self}}">
+    <ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Label}" TextWrapping="Wrap" FontSize="11" LineHeight="18" Margin="0,0,5,0"/></DataTemplate></ComboBox.ItemTemplate>
+   </ComboBox>
+   <Grid Margin="0,11,0,0"><TextBlock Text="此屏生效" FontSize="11" VerticalAlignment="Center"/><ToggleButton x:Name="Active" Click="Change" HorizontalAlignment="Right" AutomationProperties.Name="此屏生效"/></Grid>
+   <Grid Margin="0,10,0,0"><TextBlock Text="固定调暗" FontSize="10" Foreground="{DynamicResource Muted}" VerticalAlignment="Center"/><TextBlock x:Name="Amount" HorizontalAlignment="Right" FontSize="18" FontFamily="Georgia"/></Grid>
+   <Slider x:Name="Dimmer" Minimum="0" Maximum="90" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="DimChanged" AutomationProperties.Name="此屏固定调暗百分比" Margin="0,1,0,0"/>
+   <Border Height="1" Background="{DynamicResource SelectedStroke}" Opacity="0.35" Margin="0,3,0,10"/>
+   <Grid><TextBlock Text="叠加柔光" FontSize="11" VerticalAlignment="Center" ToolTip="叠加上方设定的柔光强度"/><ToggleButton x:Name="SoftLight" Click="Change" HorizontalAlignment="Right" AutomationProperties.Name="叠加柔光" ToolTip="叠加上方设定的柔光强度"/></Grid>
+   <Grid Margin="0,9,0,0"><TextBlock Text="微暖色调" FontSize="11" VerticalAlignment="Center"/><ToggleButton x:Name="Warm" Click="Change" HorizontalAlignment="Right" AutomationProperties.Name="此屏使用微暖色调"/></Grid>
+   <TextBlock x:Name="Hint" Text="暗色页面也保持调暗 · 总开关开启后生效" TextWrapping="Wrap" FontSize="9" LineHeight="16" Foreground="{DynamicResource Muted}" Margin="0,10,0,0"/>
+  </StackPanel>
+ </Border>
+</UserControl>

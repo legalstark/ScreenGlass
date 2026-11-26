@@ -58,7 +58,9 @@ public partial class MainWindow
         }
     }
 
-    private MessageBoxResult ShowUpdateMessage(string text, MessageBoxButton buttons = MessageBoxButton.OK) => IsVisible
-        ? MessageBox.Show(this, text, "ScreenGlass · 检查更新", buttons, MessageBoxImage.Information)
-        : MessageBox.Show(text, "ScreenGlass · 检查更新", buttons, MessageBoxImage.Information);
+    private MessageBoxResult ShowUpdateMessage(string text, MessageBoxButton buttons = MessageBoxButton.OK)
+    {
+        ShowPanel();
+        return MessageBox.Show(this, text, "ScreenGlass · 检查更新", buttons, MessageBoxImage.Information);
+    }
 }
